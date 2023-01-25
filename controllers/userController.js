@@ -63,8 +63,12 @@ exports.signUp = async (req, res, next) => {
       .then(passwordMatch => {
          if(passwordMatch){
             // setting cookie for login
-            res.setHeader('Set-Cookie', 'isLoggedIn=true; Max-Age=10'); // Max-Age=10 expiry time in seconds; Secure {hides on client side}, HttpOnly{can't be accessed on client side}
-         res.send({'message':'successfully loged in'})
+            // res.setHeader('Set-Cookie', 'isLoggedIn=true; Max-Age=10'); // Max-Age=10 expiry time in seconds; Secure {hides on client side}, HttpOnly{can't be accessed on client side}
+            //setting data in sessions
+            req.session.isLoggedIn = true;
+            req.session.save(err => {               
+               res.send({'message':'successfully loged in'})
+            })
       }
       else {
          res.send({'message':'please check the credentials once'});
@@ -93,14 +97,21 @@ exports.signUp = async (req, res, next) => {
  };
 
 
-   exports.getAllUsers = async(req, res) => {
-      // const allUsers = await User.find({});
-      // if(!allUsers){
-      //    res.status(400).send({"error":"no users found"})
-      // }else{
-      //    return res.status(200).send({message:"here are the found users:", allUsers})
-      // }
-   }
+exports.getAllUsers = async(req, res) => {
+   // const allUsers = await User.find({});
+   // if(!allUsers){
+   //    res.status(400).send({"error":"no users found"})
+   // }else{
+   //    return res.status(200).send({message:"here are the found users:", allUsers})
+   // }
+}
+
+exports.postLogout = async (req, res, next) =>{
+   req.session.destroy(error => {
+      console.log(error);
+      res.send({'message': 'session destroyed', 'status': error});
+   });
+}
 
 exports.updateUser = async(req, res) => {
 //    try{

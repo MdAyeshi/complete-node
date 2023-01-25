@@ -63,7 +63,7 @@ exports.signUp = async (req, res, next) => {
       .then(passwordMatch => {
          if(passwordMatch){
             // setting cookie for login
-            // res.setHeader('Set-Cookie', 'isLoggedIn=true; Max-Age=10'); // Max-Age=10 expiry time in seconds; Secure {hides on client side}, HttpOnly{can't be accessed on client side}
+            res.setHeader('Set-Cookie', 'isLoggedIn=true; Max-Age=10'); // Max-Age=10 expiry time in seconds; Secure {hides on client side}, HttpOnly{can't be accessed on client side}
          res.send({'message':'successfully loged in'})
       }
       else {

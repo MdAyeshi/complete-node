@@ -21,11 +21,11 @@ app.use((req, res, next) => {
     .catch(error => console.log(error));
 });
 app.use("/user", 
-// (req, res, next)=>{ // getting cookie test code
-//     const isLoggedIn = req.get('Cookie').split('=')[1];
-//     console.log("isLoggedIn",isLoggedIn)
-//     next();
-// },
+(req, res, next)=>{ // getting cookie test code
+    const isLoggedIn = req.get('Cookie').split('=')[1];
+    console.log("isLoggedIn",isLoggedIn)
+    next();
+},
  userRoute);
 app.use("/product", productRoute);
 

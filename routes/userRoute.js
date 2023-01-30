@@ -15,6 +15,8 @@ router.patch('/:userId', userController.updateUser);
 
 router.delete('/:userId', userController.deleteUser);
 
+router.post('/sendmail', userController.sendMail);
+
 // router.get('/data', verifyUser, userController.data);
 
 module.exports = router;

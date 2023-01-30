@@ -6,9 +6,33 @@ const User = require("../models/user");
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
+const nodemailer = require('nodemailer');
+const sendgridTransport = require('nodemailer-sendgrid-transport');
 
+const transport = nodemailer.createTransport(sendgridTransport({
+    auth:{
+        api_key: "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"
+    }
+}));
 // const { registerValidation, loginValidation } = require("../middleware/validation");
 const JWT_KEY = process.env.JWT_KEY;
+
+exports.sendMail = (req, res, next) => {
+   return transport.sendMail({
+      to:'shahidzuber786@gmail.com',
+      from:'shahidzuber786@gmail.com',
+      subject:'mail testing',
+      html:'<h1> mail send successfully</h1>'
+   })
+   .then(result => {
+      console.log(result)
+      res.send({'message':'mail sent', 'data':result});
+   })
+   .catch(error => {
+      console.log(error)
+      res.send({'message':'mail could not be sent', 'data':error});
+   });
+}
 
 exports.signUp = async (req, res, next) => {
    const name = req.body.name;
